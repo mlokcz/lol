@@ -1,16 +1,24 @@
-function httpGet(theUrl)
-{
-    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    } else {// code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=function() {
-        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            return xmlhttp.responseText;
-        }
-    }
-    xmlhttp.open("GET", theUrl, false );
-    xmlhttp.send();    
-}
-alert(httpGet('http://yiffy.cz/profile/'));
+(function() {
+	// Load the script
+	var script = document.createElement('SCRIPT');
+	script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+	script.type = 'text/javascript';
+	document.getElementsByTagName('head')[0].appendChild(script);
+
+	// Poll for jQuery to come into existance
+	var checkReady = function(callback) {
+		if (window.jQuery) {
+			callback(jQuery);
+		}
+		else {
+			window.setTimeout(function() { checkReady(callback); }, 100);
+		}
+	};
+
+	// Start polling...
+	checkReady(function($) {
+		$.get("http://yiffy.cz", function(response) { 
+			alert(response) 
+		});
+	});
+})();
